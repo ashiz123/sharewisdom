@@ -6,20 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Models\User; 
 use Illuminate\Support\Facades\Auth; 
 use Validator;
-use App\Http\Repositories\UserRepository;
+use App\Http\Interfaces\UserRepositoryInterface;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\AuthenticationResource;
 use Exception;
 
 class UserController extends Controller 
 {
 public $successStatus = 200;
+
+private $userRepository;
 /** 
      * login api 
      * 
      * @return \Illuminate\Http\Response 
      */ 
 
-    public function __construct( UserRepository $userRepository)
+    public function __construct( UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }
@@ -47,7 +50,7 @@ public $successStatus = 200;
         }
         $success['token'] =  $user->createToken('MyApp')->accessToken; 
         $success['user'] =  $user;
-        return new UserResource($success);
+        return new AuthenticationResource($success);
        
     }   
     
@@ -59,11 +62,12 @@ public $successStatus = 200;
     public function register(Request $request) 
     { 
 
-         $user = $this->userRepository->register($request);
-         $success['token'] =  $user->createToken('MyApp')-> accessToken; 
-         $success['user'] =  $user;
+         $userRepo = $this->userRepository->register($request);
+         $user['token'] =  $userRepo->createToken('MyApp')-> accessToken; 
+         $user['user'] =  $userRepo;
+        //  $user['details'] = $userRepo->userDetail;
 
-         return new UserResource($success);
+         return new AuthenticationResource($user);
         
     }
 /** 
@@ -77,4 +81,7 @@ public $successStatus = 200;
         return new UserResource($user);
 
     } 
+
+
+    
 }

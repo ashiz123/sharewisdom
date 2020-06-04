@@ -18,6 +18,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function register($attributes)
     {
+        
         $validator = Validator::make($attributes->all(), [ 
             'name' => 'required', 
             'email' => 'required|email', 
