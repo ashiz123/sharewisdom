@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\CommentResource;
+use App\Http\Resources\TagResource;
 use Auth;
 
 class PostsResource extends JsonResource
@@ -27,7 +28,8 @@ class PostsResource extends JsonResource
         'image' => asset('images/posts/' . $this->image),
         'like_count' => $this->getLikeCount(),
         'comment_count' => $this->commentCount(),
-        'comments' => CommentResource::collection($this->getComment())
+        'comments' => CommentResource::collection($this->getComment()),
+        'tags' => TagResource::collection($this->tag)
         ];      
     }
 }

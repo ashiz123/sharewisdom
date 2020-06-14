@@ -17,8 +17,11 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'user_name' => $this->user->name,
-            'user_image' => asset('images/profile/' . $this->user->userImage->image) ,
+            'user_image' =>asset('images/profile/' . $this->user->userImage->image),
             'comment' => $this->comment
         ];
     }
 }
+// 'expires_at' => $this->whenPivotLoaded('role_user', function () {
+//     return $this->pivot->expires_at;
+// }),

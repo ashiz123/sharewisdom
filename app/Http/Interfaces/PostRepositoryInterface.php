@@ -18,6 +18,8 @@ interface PostRepositoryInterface
     public function postDetail($id);
 
     public function getFollowedUserPost($id);
+
+    public function authUserFollowedPosts($id);
     
 
 

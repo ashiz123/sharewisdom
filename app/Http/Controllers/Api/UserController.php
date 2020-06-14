@@ -9,6 +9,7 @@ use Validator;
 use App\Http\Interfaces\UserRepositoryInterface;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\AuthenticationResource;
+use App\Notifications\RegistrationSuccessful;
 use Exception;
 
 class UserController extends Controller 
@@ -50,6 +51,7 @@ private $userRepository;
         }
         $success['token'] =  $user->createToken('MyApp')->accessToken; 
         $success['user'] =  $user;
+       
         return new AuthenticationResource($success);
        
     }   
@@ -67,6 +69,7 @@ private $userRepository;
          $user['user'] =  $userRepo;
         //  $user['details'] = $userRepo->userDetail;
 
+        $userRepo->notify(new RegistrationSuccessful);
          return new AuthenticationResource($user);
         
     }

@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Resources\UsersCollection;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,11 +61,16 @@ Route::get('posts', 'Api\PostController@allPosts');
 Route::post('create_post', 'Api\PostController@createPost');
 Route::get('post/{id}', 'Api\PostController@postDetail');
 Route::get('followedUserPost/{currentUserId}', 'Api\PostController@getFollowedUserPost');
+Route::get('getAuthUserFollowedPosts/{currentUserId}', 'Api\PostController@getAuthUserFollowedPosts');
 
 
 
 });
 
+
+Route::get('/usertest', function () {
+    return UserResource::collection(User::paginate());
+});
 
 
 

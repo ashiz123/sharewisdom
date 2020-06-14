@@ -21,7 +21,8 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'image' => new UploadProfilePictureResource($this->userImage),
-            'other' => new UserDetailResource($this->userDetail)
+            'other' => new UserDetailResource($this->userDetail),
+            'notifications' => $this->notifications
             
         ];
     }

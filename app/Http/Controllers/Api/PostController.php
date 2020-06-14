@@ -8,6 +8,7 @@ use App\Http\Resources\PostsResource;
 use App\Http\Interfaces\PostRepositoryInterface;
 use App\Models\User;
 use App\Models\Tag;
+use App\Helpers\Paginate;
 
 
 class PostController extends Controller
@@ -64,6 +65,17 @@ class PostController extends Controller
         $resource = PostsResource::collection($repo);
         return response()->json($resource);
     }
+
+
+    public function getAuthUserFollowedPosts($id)
+    {
+        $repo = $this->postRepository->authUserFollowedPosts($id);
+        $resource = PostsResource::collection($repo);
+        $data = Paginate::paginate($resource); //manually creating paginate
+        return response()->json($data);
+    }
+
+
 
     
     

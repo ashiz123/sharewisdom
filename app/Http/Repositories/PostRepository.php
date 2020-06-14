@@ -92,14 +92,14 @@ class PostRepository implements PostRepositoryInterface
     {
         $user = User::find($id);
         $followings = $user->followings->pluck('id');
-        $newPosts = array();
+        
        
 
         $posts = Post::latest()->get();
-        $filtered = $posts->filter(function($value, $key) use($followings, $newPosts){
+        $filtered = $posts->filter(function($post, $key) use($followings){
             foreach($followings as $following)
             {
-                if( $value->user_id == $following)
+                if( $post->user_id == $following)
                 {
                     return $following;
                 }
@@ -108,12 +108,33 @@ class PostRepository implements PostRepositoryInterface
         });
 
         return $filtered;
-
-       
-
-        
-
         // return $user->followings->
+    }
+
+
+    public function authUserFollowedPosts($id)
+    {
+        $user = User::find($id);
+        $following = $user->followings->pluck('id');
+        $user = collect($user->id);
+        $collection = collect([$following, $user]);
+        $currentUserWithFollowings  = $collection->collapse();
+        
+        $posts = Post::latest()->get();
+        $filtered = $posts->filter(function($post, $key) use($currentUserWithFollowings){
+            foreach($currentUserWithFollowings as $user)
+            {
+                
+                if( $post->user_id == $user)
+                {
+                    return $user;
+                }
+            }
+          
+        });
+
+        return $filtered;
+        
     }
 
 }
