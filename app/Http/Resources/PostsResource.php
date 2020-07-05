@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\TagResource;
+use Carbon\Carbon;
 use Auth;
 
 class PostsResource extends JsonResource
@@ -18,6 +19,7 @@ class PostsResource extends JsonResource
      */
     public function toArray($request)
     {
+        // $carbon = new Carbon();
         return[
         'id' => $this->id,
         'title' => $this->title,
@@ -29,7 +31,10 @@ class PostsResource extends JsonResource
         'like_count' => $this->getLikeCount(),
         'comment_count' => $this->commentCount(),
         'comments' => CommentResource::collection($this->getComment()),
-        'tags' => TagResource::collection($this->tag)
+        'tags' => TagResource::collection($this->tag),
+        'created_at' => $this->created_at,
+        'difference' => $this->created_at->diffForHumans()
+        
         ];      
     }
 }
