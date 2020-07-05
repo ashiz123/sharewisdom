@@ -29,7 +29,7 @@ class PostsResource extends JsonResource
         'like_count' => $this->getLikeCount(),
         'comment_count' => $this->commentCount(),
         'comments' => CommentResource::collection($this->getComment()),
-        'tags' => TagResource::collection($this->tag)
+        'tags' => TagResource::collection($this->tag),
         ];      
     }
 }
