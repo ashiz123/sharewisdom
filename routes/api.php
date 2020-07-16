@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Resources\UsersCollection;
 use App\Models\User;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,8 +18,19 @@ use App\Models\User;
 |
 */
 
+// Route::get('login/github', 'Auth\UserController@redirectToProvider');
+// Route::get('login/github/callback', 'Auth\UserController@handleProviderCallback');
+
 Route::post('login', 'Api\UserController@login');
 Route::post('register', 'Api\UserController@register');
+
+
+//event testing
+
+
+//social authentication
+Route::post('googleRegister', 'Api\UserController@googleRegister')->name('googleRegister');
+Route::post('googleLogin', 'Api\UserController@googleLogin')->name('googleLogin');
 
 //api group middleware
 Route::group(['middleware' => 'auth:api'], function(){

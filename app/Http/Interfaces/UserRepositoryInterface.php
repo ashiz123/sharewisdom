@@ -14,4 +14,8 @@ interface UserRepositoryInterface
     public function login($attributes);
 
     public function details();
+
+    public function googleLogin($attributes);
+
+    public function googleRegister($attributes);
 }

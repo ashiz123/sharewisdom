@@ -11,6 +11,7 @@ use App\Models\Tag;
 use App\Models\UserTag;
 use App\Models\Post;
 use App\Models\UserDetail;
+use App\Models\LinkedSocialAccount;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -24,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'api_token', 'id_token'
     ];
 
     /**
@@ -99,6 +100,11 @@ public function followings(): BelongsToMany
     return $this->belongsToMany(User::class, 'follow_users', 'follow_id', 'leader_id')->withTimestamps();
 }
 
+public function linkedSocialAccounts()
+    {
+        return $this->hasMany(LinkedSocialAccount::class);
+    }
+
 public function likeOrNot($postId)
 {
     $likes = Like::where('like_id', $this->id)->get();
@@ -113,6 +119,13 @@ public function likeOrNot($postId)
     });
     return $filterLikes;
 }
+
+
+public function receivesBroadcastNotificationsOn()
+{
+    return 'App.User.' . $this->id;
+}
+
 
 
 

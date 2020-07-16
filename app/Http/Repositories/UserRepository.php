@@ -27,6 +27,7 @@ class UserRepository implements UserRepositoryInterface
         ]);
 
         if ($validator->fails()) { 
+            
             return response()->json(['error'=>$validator->errors()], 401);            
         }
 
@@ -59,6 +60,20 @@ class UserRepository implements UserRepositoryInterface
      {
         $user = Auth::user(); 
         return $user;
+     }
+
+
+     public function googleRegister($attributes)
+     {
+         
+     }
+
+     public function googleLogin($attributes)
+     {
+         If(Auth::attempt(['email' => $attributes->email, 'password' => NULL])){
+             $user = Auth::user();
+             return $user;
+         }
      }
 
 
